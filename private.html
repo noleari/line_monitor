@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script type="module" defer>
+    let dropdown = document.getElementById("select")
+    let number_input = document.getElementById("number_input")
+
+    document.getElementById("submit").onclick = (event) => {
+
+        if (dropdown.value == "none") {
+            alert("Select a bar before submitting")
+            return
+        }
+        if (number_input.value == "" || Number(number_input.value) < 0) {
+            alert("Enter a valid number before submitting")
+            return
+        }
+
+        const bar = dropdown.options[dropdown.selectedIndex].text
+        const people = Number(number_input.value)
+
+        let response = confirm(`Confirm Submission:\n${bar} - ${people} people`)
+        if (!response) {return}
+
+        fetch("/new_info", {
+            method: "POST",
+            headers: {bar: dropdown.value, people: people, timestamp: Date.now()}
+        })
+
+    }
+</script>    
+<body>
+
+    <div class="center">
+        <h1>Select A Bar</h1>
+        <select id="select">
+            <option value="none"></option>
+            <option value="mondays">Monday's</option>
+            <option value="whiskeys">Whiskey's</option>
+            <option value="kk">KK</option>
+            <option value="brats">Brats</option>
+            <option value="uu">UU</option>
+            <option value="chasers">Chasers</option>
+            <option value="brats">Brats</option>
+            <option value="hawks">Hawks</option>
+            <option value="city">City Bar</option>
+            <option value="wandos">Wando's</option>
+            <option value="churchkey">Churchkey</option>
+            <option value="shed">Red Shed</option>
+        </select>
+    </div>
+
+    <div class="center">
+        <h1>Number of People</h1>
+        <input type="number" id="number_input" style="text-align:center;">
+    </div>
+
+    <div class="center">
+        <button type="button" id="submit">Submit</button>
+    </div>
+
+</body>
+<style>
+    .center {
+        margin: auto;
+        width: 75%;
+        border: 3px solid black;
+        padding: 10px;
+        text-align: center;
+      }
+</style>
+</html>

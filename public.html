@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Line Monitor</title>
+</head>
+<script type="module" defer>
+    const whiskeys = document.getElementById("whiskeys")
+    const mondays = document.getElementById("mondays")
+    const kk = document.getElementById("kk")
+    const brats = document.getElementById("brats")
+    const city = document.getElementById("city")
+    const wandos = document.getElementById("wandos")
+    const churchkey = document.getElementById("churchkey")
+    const shed = document.getElementById("shed")
+    const uu = document.getElementById("uu")
+    const chasers = document.getElementById("chasers")
+    const hawks = document.getElementById("hawks")
+
+    function parseBarData(data) {
+        let date = new Date(data.timestamp)
+        let date_str = date.toLocaleDateString().split("/")
+        let time_str = date.toLocaleTimeString().split(":")
+        let people = Number(data.people)
+        let color = ""
+
+        if (people <= 10) {color = "green"}
+        else if (people > 10 && people <= 30) {color = "orange"}
+        else if (people > 30) {color = "red"}
+
+        const peopleHTML = `<strong style="color:${color}"">${people}</strong> people`
+        const date_time_str = `at ${time_str[0]}:${time_str[1]} on ${date_str[0]}/${date_str[1]}`
+
+        return `${peopleHTML} ${date_time_str}`
+        
+    }
+
+    fetch("/latest_info", {
+        method: "GET",
+        headers: {trust: true}
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        whiskeys.innerHTML = parseBarData(data.whiskeys)
+        mondays.innerHTML = parseBarData(data.mondays)
+        kk.innerHTML = parseBarData(data.kk)
+        brats.innerHTML = parseBarData(data.brats)
+        city.innerHTML = parseBarData(data.city)
+        wandos.innerHTML = parseBarData(data.wandos)
+        churchkey.innerHTML = parseBarData(data.churchkey)
+        shed.innerHTML = parseBarData(data.shed)
+        uu.innerHTML = parseBarData(data.uu)
+        chasers.innerHTML = parseBarData(data.chasers)
+        hawks.innerHTML = parseBarData(data.hawks)
+    })
+</script>
+<body>
+    <div class="center">
+        <h1>Monday's</h1>
+        <h2 id="mondays"></h2>
+    </div>
+    <div class="center">
+        <h1>Whiskey's</h1>
+        <h2 id="whiskeys"></h2>
+    </div>
+    <div class="center">
+        <h1>KK</h1>
+        <h2 id="kk"></h2>
+    </div>
+    <div class="center">
+        <h1>UU</h1>
+        <h2 id="uu"></h2>
+    </div>
+    <div class="center">
+        <h1>Chasers</h1>
+        <h2 id="chasers"></h2>
+    </div>
+    <div class="center">
+        <h1>Brats</h1>
+        <h2 id="brats"></h2>
+    </div>
+    <div class="center">
+        <h1>Hawks</h1>
+        <h2 id="hawks"></h2>
+    </div>
+    <div class="center">
+        <h1>City Bar</h1>
+        <h2 id="city"></h2>
+    </div>
+    <div class="center">
+        <h1>Wando's</h1>
+        <h2 id="wandos"></h2>
+    </div>
+    <div class="center">
+        <h1>Churchkey</h1>
+        <h2 id="churchkey"></h2>
+    </div>
+    <div class="center">
+        <h1>Red Shed</h1>
+        <h2 id="shed"></h2>
+    </div>
+</body>
+<style>
+    .center {
+        margin: auto;
+        width: 75%;
+        border: 3px solid black;
+        padding: 10px;
+        text-align: center;
+      }
+</style>
+</html>
