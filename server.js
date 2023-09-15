@@ -2,7 +2,8 @@ import express from "express";
 import path from "path";
 import fs from "node:fs";
 
-
+const USERNAME = "ifitsasian"
+const PASSWORD = "callross"
 
 const app = express();
 const port = 8080;
@@ -25,6 +26,30 @@ app.get("/latest_info", (req, res) => {
 });
 
 app.get("/private", (req, res) => {
+
+    const reject = () => {
+        res.setHeader("www-authenticate", "Basic");
+        res.sendStatus(401);
+    };
+
+    const authorization = req.headers.authorization;
+
+    if (!authorization) {
+        return reject();
+    }
+
+    const [username, password] = Buffer.from(
+        authorization.replace("Basic ", ""),
+        "base64"
+    )
+    .toString()
+    .split(":");
+
+    if (!(username === USERNAME && password === PASSWORD)) {
+        return reject();
+    }
+
+
     res.sendFile(path.join(__dirname, "private.html"))
 });
 
