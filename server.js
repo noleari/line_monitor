@@ -2,11 +2,13 @@ import express from "express";
 import path from "path";
 import fs from "node:fs";
 
-const USERNAME = "ifitsasian"
-const PASSWORD = "callross"
+
+const USERNAME = Bun.env.USERNAME;
+const PASSWORD = Bun.env.PASSWORD;
+const port = Bun.env.PORT;
 
 const app = express();
-const port = 8080;
+
 
 app.get("/", (req, res) => {
     res.redirect("/public");
